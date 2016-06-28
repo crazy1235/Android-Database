@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">SQLiteDemo</string>
+
+    <string name="insert">插入数据</string>
+
+    <string name="query">查询数据</string>
+
 </resources>
