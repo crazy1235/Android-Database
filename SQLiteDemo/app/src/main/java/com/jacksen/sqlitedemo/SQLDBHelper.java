@@ -12,7 +12,7 @@ public class SQLDBHelper extends SQLiteOpenHelper {
 
     public static String DB_NAME = "sqlite_demo.db";
 
-    public static int DB_VERSION = 2;
+    public static int DB_VERSION = 3;
 
     public static String TABLE_STUDENTS = "students";
 

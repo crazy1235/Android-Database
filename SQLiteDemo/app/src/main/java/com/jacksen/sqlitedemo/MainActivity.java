@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Toast;
 
 import com.jacksen.sqlitedemo.bean.Student;
 
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                deleteAllStudents();
             }
         });
 
@@ -80,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
 
     private void insertSomeStudents() {
         for (int i = 0; i < 5; i++) {
@@ -120,6 +122,15 @@ public class MainActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
 
 //        cursor.close();
+    }
+
+
+    /**
+     * 删除所有学生信息--即清空students表
+     */
+    private void deleteAllStudents() {
+        int result = database.delete(SQLDBHelper.TABLE_STUDENTS, null, null);
+        Toast.makeText(this, "result:" + result, Toast.LENGTH_SHORT).show();
     }
 
     @Override
