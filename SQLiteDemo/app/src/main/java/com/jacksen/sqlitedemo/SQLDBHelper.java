@@ -10,22 +10,27 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class SQLDBHelper extends SQLiteOpenHelper {
 
-    public static String DB_NAME = "";
+    public static String DB_NAME = "sqlite_demo.db";
 
-    public static int DB_VERSION = 1;
+    public static int DB_VERSION = 2;
+
+    public static String TABLE_STUDENTS = "students";
 
 
-    public SQLDBHelper(Context context, String name) {
-        super(context, name, null, DB_VERSION);
+    private static String CREATE_TABLE_STUDENTS = "create table " + TABLE_STUDENTS + " ( id integer primary key autoincrement,  " +
+            "name varchar(20) not null, sex integer, class_id integer );";
+
+    public SQLDBHelper(Context context) {
+        super(context, DB_NAME, null, DB_VERSION);
     }
 
     @Override
-    public void onCreate(SQLiteDatabase sqLiteDatabase) {
-
+    public void onCreate(SQLiteDatabase db) {
+        db.execSQL(CREATE_TABLE_STUDENTS);
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("alter table " + TABLE_STUDENTS + " add column age integer");
     }
 }

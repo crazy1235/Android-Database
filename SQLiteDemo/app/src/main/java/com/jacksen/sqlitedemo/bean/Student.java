@@ -9,7 +9,26 @@ public class Student {
     private String name;
     private int sex;
     private int classId;
+    private int age;
 
+    public Student() {
+    }
+
+    public Student(int id, String name, int sex, int classId, int age) {
+        this.id = id;
+        this.name = name;
+        this.sex = sex;
+        this.classId = classId;
+        this.age = age;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
 
     public int getId() {
         return id;
