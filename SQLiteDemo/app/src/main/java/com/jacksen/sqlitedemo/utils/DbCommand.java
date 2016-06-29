@@ -1,4 +1,4 @@
-package jacksen.sqlitedemo.utils;
+package com.jacksen.sqlitedemo.utils;
 
 import android.os.Handler;
 import android.os.Looper;

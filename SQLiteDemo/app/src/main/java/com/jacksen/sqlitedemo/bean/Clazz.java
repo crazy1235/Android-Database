@@ -1,4 +1,4 @@
-package jacksen.sqlitedemo.bean;
+package com.jacksen.sqlitedemo.bean;
 
 /**
  * Created by Admin on 2016/6/28.

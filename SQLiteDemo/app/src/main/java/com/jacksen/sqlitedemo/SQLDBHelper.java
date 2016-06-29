@@ -1,4 +1,4 @@
-package jacksen.sqlitedemo;
+package com.jacksen.sqlitedemo;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

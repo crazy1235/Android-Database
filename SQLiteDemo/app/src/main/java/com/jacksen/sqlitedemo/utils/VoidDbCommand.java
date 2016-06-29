@@ -1,4 +1,4 @@
-package jacksen.sqlitedemo.utils;
+package com.jacksen.sqlitedemo.utils;
 
 /**
  * Created by Admin on 2016/6/28.
