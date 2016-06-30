@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
     private SQLiteDatabase database;
     private List<Student> list;
+    private SimpleCursorAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         updateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                updateStudents();
             }
         });
 
@@ -100,9 +101,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void queryStudents() {
         list = new ArrayList<>();
-        Cursor cursor = database.query(SQLDBHelper.TABLE_STUDENTS,
-                new String[]{"id as _id", "name", "sex", "age", "class_id"}, "id>? and sex=?", new String[]{"3", "0"},
-                null, null, "id desc");
+
         /*while (cursor.moveToNext()) {
             int stuId = cursor.getInt(0);
             String name = cursor.getString(cursor.getColumnIndex("name"));
@@ -113,15 +112,22 @@ public class MainActivity extends AppCompatActivity {
         }
         cursor.close();*/
 
-        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.item_listview, cursor,
+        showData();
+
+
+//        cursor.close();
+    }
+
+    private void showData() {
+        Cursor cursor = database.query(SQLDBHelper.TABLE_STUDENTS,
+                new String[]{"id as _id", "name", "sex", "age", "class_id"}, "id>? and sex=?", new String[]{"3", "1"},
+                null, null, "id desc");
+        adapter = new SimpleCursorAdapter(this, R.layout.item_listview, cursor,
                 new String[]{"_id", "name", "sex", "age", "class_id"},
                 new int[]{R.id.student_id_tv, R.id.student_name_tv, R.id.student_sex_tv, R.id.student_age_tv, R.id.student_classid_tv},
                 CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 
-
         listView.setAdapter(adapter);
-
-//        cursor.close();
     }
 
 
@@ -133,8 +139,22 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, "result:" + result, Toast.LENGTH_SHORT).show();
     }
 
+    private void updateStudents() {
+        /*ContentValues contentValues = new ContentValues();
+        contentValues.put("age", 24);
+        contentValues.put("name", "ljj");
+        database.update(SQLDBHelper.TABLE_STUDENTS, contentValues, "id=?", new String[]{"32"});*/
+
+        database.execSQL("update " + SQLDBHelper.TABLE_STUDENTS + " set name='haha', age=15 where id=39;" +
+                "update " + SQLDBHelper.TABLE_STUDENTS + " set name='heihei', age = 19 where id=37;");
+
+        showData();
+    }
+
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        database.close();
     }
 }

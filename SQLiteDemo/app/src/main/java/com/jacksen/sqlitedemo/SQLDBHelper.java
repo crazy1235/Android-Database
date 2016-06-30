@@ -31,6 +31,13 @@ public class SQLDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("alter table " + TABLE_STUDENTS + " add column age integer");
+        if (newVersion == 2) {
+            db.execSQL("alter table " + TABLE_STUDENTS + " add column age integer");
+        }
+    }
+
+    @Override
+    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        super.onDowngrade(db, oldVersion, newVersion);
     }
 }
