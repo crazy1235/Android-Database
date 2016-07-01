@@ -1,6 +1,5 @@
 package com.jacksen.sqlitedemo;
 
-import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -85,12 +84,24 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void insertSomeStudents() {
-        for (int i = 0; i < 5; i++) {
+        /*for (int i = 0; i < 5; i++) {
             ContentValues contentValues = new ContentValues();
             contentValues.put("name", "name" + i);
             contentValues.put("sex", i % 2);
             contentValues.put("class_id", i * 101);
             database.insert(SQLDBHelper.TABLE_STUDENTS, null, contentValues);
+        }*/
+
+        database.beginTransaction();
+
+        try {
+            database.execSQL("insert into " + SQLDBHelper.TABLE_STUDENTS + " ('name', 'sex', 'class_id', 'age') values('ssf', 1, 101, 26)");
+            database.execSQL("insert into " + SQLDBHelper.TABLE_STUDENTS + " ('name', 'sex', 'class_id', 'age') values(?,?,?,?)", new String[]{"oujie", "1", "102", "25"});
+            database.setTransactionSuccessful();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            database.endTransaction();
         }
     }
 
@@ -119,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showData() {
-        Cursor cursor = database.query(SQLDBHelper.TABLE_STUDENTS,
+        /*Cursor cursor = database.query(SQLDBHelper.TABLE_STUDENTS,
                 new String[]{"id as _id", "name", "sex", "age", "class_id"}, "id>? and sex=?", new String[]{"3", "1"},
                 null, null, "id desc");
         adapter = new SimpleCursorAdapter(this, R.layout.item_listview, cursor,
@@ -127,7 +138,16 @@ public class MainActivity extends AppCompatActivity {
                 new int[]{R.id.student_id_tv, R.id.student_name_tv, R.id.student_sex_tv, R.id.student_age_tv, R.id.student_classid_tv},
                 CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 
+        listView.setAdapter(adapter);*/
+
+
+        Cursor cursor = database.rawQuery("select id as _id, name, sex, class_id, age from " + SQLDBHelper.TABLE_STUDENTS, null);
+        adapter = new SimpleCursorAdapter(this, R.layout.item_listview, cursor,
+                new String[]{"_id", "name", "sex", "age", "class_id"},
+                new int[]{R.id.student_id_tv, R.id.student_name_tv, R.id.student_sex_tv, R.id.student_age_tv, R.id.student_classid_tv},
+                CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         listView.setAdapter(adapter);
+//        cursor.close();
     }
 
 
@@ -155,6 +175,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        database.close();
+        if (database != null && database.isOpen()) {
+            database.close();
+        }
     }
 }
