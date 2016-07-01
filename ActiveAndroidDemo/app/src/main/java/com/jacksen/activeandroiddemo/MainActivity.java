@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.activeandroid.ActiveAndroid;
+import com.activeandroid.Model;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 import com.activeandroid.query.Update;
@@ -108,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void deleteStudent() {
         new Delete().from(Student.class).where("sid=?", 1).execute();
+        Model.delete(Student.class, 3);
     }
 
 
