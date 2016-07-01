@@ -3,6 +3,7 @@ package com.jacksen.activeandroiddemo;
 import android.app.Application;
 
 import com.activeandroid.ActiveAndroid;
+import com.activeandroid.Configuration;
 
 /**
  * Created by Admin on 2016/6/29.
@@ -13,7 +14,13 @@ public class CustomApplication extends Application {
     public void onCreate() {
         super.onCreate();
         //初始化
-        ActiveAndroid.initialize(this);
+
+        Configuration.Builder builder = new Configuration.Builder(this);
+        builder.setSqlParser(Configuration.SQL_PARSER_DELIMITED);
+        Configuration configuration = builder.create();
+        ActiveAndroid.initialize(configuration);
+
+//        ActiveAndroid.initialize(this);
     }
 
     @Override
